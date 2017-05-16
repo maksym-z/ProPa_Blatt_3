@@ -21,13 +21,11 @@ procedure Suv is
    --  Sie koennen hier (vorsichtig) weitere Definitionen einfuegen.
    function Can_Cut (Parts : Long; Cut_Size : Long) return Boolean is
    begin
-     return False;
+   return False;
    end Can_Cut;
-
    
    function Partition (Minimum : Long; Maximum : Long; Parts : Long) return Long is
-   Middle: Long;
-     
+      Middle: Long;
    begin
      Ada.Text_IO.Put ("The value is between ");
      Ada.Text_IO.Put (Minimum);
