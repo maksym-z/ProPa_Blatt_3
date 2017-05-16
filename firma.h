@@ -1,6 +1,6 @@
 uint64_t gewinn (const int64_t *const d, const size_t n) {
   // Implementieren Sie diese Funktion
-  int64_t i, current_max, max_ending_here;
+  int64_t i, current_max, max_ending_here, startIndex, endIndex;
   
   const int64_t *ptr;
   ptr = d;
