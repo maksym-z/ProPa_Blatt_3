@@ -19,29 +19,38 @@ procedure Suv is
    Langste_Etappe : Long := 0;
 
    --  Sie koennen hier (vorsichtig) weitere Definitionen einfuegen.
+
+   --  Similarly to the assignment from Exercise 2,
+   --  check if the entire path can be covered with the given number of stops
    function Can_Cut (Parts : Long; Cut_Size : Long) return Boolean is
+      Current_Prefix : Long := 0;
+      Current_Parts : Long := 1;
    begin
-   return False;
+      for I in Etappen'Range loop
+         if Current_Prefix + Etappen (I) <= Cut_Size then
+            Current_Prefix := Current_Prefix + Etappen (I);
+         elsif Etappen (I) <= Cut_Size then
+            Current_Prefix := Etappen (I);
+            Current_Parts := Current_Parts + 1;
+         end if;
+      end loop;
+      return Current_Parts <= Parts;
    end Can_Cut;
-   
-   function Partition (Minimum : Long; Maximum : Long; Parts : Long) return Long is
-      Middle: Long;
+
+   --  Determine the smallest possible tank capacity by binary search.
+   function Partition (Minimum, Maximum, Parts : in Long) return Long is
+      Middle : Long;
    begin
-     Ada.Text_IO.Put ("The value is between ");
-     Ada.Text_IO.Put (Minimum);
-     Ada.Text_IO.Put (" and ");
-     Ada.Text_IO.Put (Maximum);
-     Ada.Text_IO.New_Line;
-     if Minimum = Maximum then
-       return Minimum;
-     else
-       Middle := (Maximum - Minimum) / 2 + Minimum;
-       if Can_Cut (Parts, Middle) then
-	 return Partition(Minimum, Middle, Parts);
-       else
-	 return Partition(Middle+1, Maximum, Parts);
-       end if;
-     end if;
+      if Minimum = Maximum then
+         return Minimum;
+      else
+         Middle := (Maximum - Minimum) / 2 + Minimum;
+         if Can_Cut (Parts, Middle) then
+            return Partition (Minimum, Middle, Parts);
+         else
+            return Partition (Middle + 1, Maximum, Parts);
+         end if;
+      end if;
    end Partition;
 
    function Solve return Long is
@@ -49,7 +58,7 @@ procedure Suv is
    begin
       --  Implementieren Sie diese Funktion
       --  Greifen Sie dabei auf Stopps und Etappen zu.
-      return 0;
+      return Partition (Langste_Etappe, Gesamtstrecke, Stopps + 1);
    end Solve;
 
 
